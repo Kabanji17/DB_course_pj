@@ -64,13 +64,13 @@ def load_to_database_company() -> None:
                 VALUES (%s, %s)
                 RETURNING company_id
                 """,
-                vars=(employer['id'], employer["name"]),
+                vars=(employer["id"], employer["name"]),
             )
 
             company_id = cur.fetchone()[0]
 
             for vacancy in hh_vacancy:
-                if int(vacancy['employer']['id']) == int(company_id):
+                if int(vacancy["employer"]["id"]) == int(company_id):
                     cur.execute(
                         """
                         INSERT INTO vacancy (company_id, vacancy_name, salary_from, salary_to, 
@@ -84,7 +84,7 @@ def load_to_database_company() -> None:
                             vacancy["salary"]["to"],
                             vacancy["salary"]["currency"],
                             vacancy["url"],
-                            vacancy["snippet"]['responsibility'],
+                            vacancy["snippet"]["responsibility"],
                         ),
                     )
                 else:
@@ -94,7 +94,7 @@ def load_to_database_company() -> None:
     conn.close()
 
 
-if __name__ == '__main__':
-    db_create('../database.ini')
-    db_create_table('../database.ini')
-    load_to_database_company('../database.ini')
+if __name__ == "__main__":
+    db_create("../database.ini")
+    db_create_table("../database.ini")
+    load_to_database_company("../database.ini")
